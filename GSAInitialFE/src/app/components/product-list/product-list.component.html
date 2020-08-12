@@ -1,0 +1,106 @@
+<div class="row">
+  <div class="col-xl-12">
+
+    <div class="row" style="padding-top: 20px; text-align: center;">
+      <div class="col-xl-12">
+
+        <h1>Welcome to 24/7 shop!</h1>
+
+      </div>
+    </div>
+
+    <br>
+
+
+
+    <div class="row">
+      <div class="col-xl-11" style="text-align: right;">
+        <button
+          (click)="addProduct()"
+          mat-raised-button color="primary">Add New Product</button>
+      </div>
+    </div>
+
+
+    <div class="row"
+         style="padding-top: 30px; text-align: center; font-weight: bold; font-size: 17px;"
+         *ngIf="products.length === 0; else productExists">
+      <div class="col-xl-12">
+
+        No products available. It's easy to create one!
+
+      </div>
+    </div>
+
+    <ng-template #productExists>
+
+      <div class="row" style="padding-top: 30px"
+      >
+        <div class="offset-xl-1 col-xl-10"
+             style="padding: 10px; border-radius: 4px">
+
+          <div class="row"
+               style="
+             padding-bottom: 10px;
+             font-weight: 500;
+             font-size: 17px;">
+
+            <div class="col-xl-4">
+              Name
+            </div>
+
+            <div class="col-xl-3">
+              Price
+            </div>
+
+            <div class="col-xl-3">
+              Quantity
+            </div>
+
+            <div class="col-xl-2" style="text-align: center;">
+              Actions
+            </div>
+
+          </div>
+
+
+          <div class="row"
+               style="
+             padding-bottom: 10px;
+             padding-top: 10px;
+             border-bottom: thin solid #e2e2e2"
+               *ngFor="let product of products; let i = index">
+
+            <div class="col-xl-4">
+              {{ i +1 }}. {{ product.Name }}
+            </div>
+
+            <div class="col-xl-3">
+              {{ product.Price }}
+            </div>
+
+            <div class="col-xl-3">
+              {{ product.Quantity }}
+            </div>
+
+            <div class="col-xl-1">
+              <button
+                (click)="editProduct(product)"
+                mat-stroked-button>Edit</button>
+            </div>
+
+            <div class="col-xl-1">
+              <button
+                (click)="deleteProduct(product.Id, i)"
+                mat-stroked-button color="warn">Delete</button>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </ng-template>
+
+  </div>
+</div>
