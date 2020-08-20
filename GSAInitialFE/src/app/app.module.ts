@@ -11,6 +11,8 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ProductsResolverService} from './route-resolvers/products-resolver.service';
 import {ProductDataStorageService} from './services/product-data-storage.service';
+import {GridModule} from '@progress/kendo-angular-grid';
+
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import {ProductDataStorageService} from './services/product-data-storage.service
     AngularMaterialModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    GridModule
   ],
   providers: [ProductDataStorageService, ProductsResolverService],
   entryComponents: [AddUpdateDialogComponent],

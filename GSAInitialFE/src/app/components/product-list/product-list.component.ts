@@ -12,8 +12,9 @@ import {AddUpdateDialogComponent} from '../../dialogs/add-update-dialog/add-upda
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
-
+  gridData: any[] = [];
   products: Product[] = [];
+
   constructor(private snackBar: MatSnackBar,
               private route: ActivatedRoute,
               private matDialog: MatDialog,
@@ -22,6 +23,7 @@ export class ProductListComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe((data: Data) => {
       this.products = data['products'].products;
+      this.gridData = this.products;
     });
   }
 
