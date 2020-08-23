@@ -38,14 +38,39 @@
       <div class="row" style="padding-top: 30px">
         <div class="offset-xl-1 col-xl-10" style="padding: 10px;">
 
-          <kendo-grid [data]="products">
+          <kendo-grid
+            [data]="gridView"
+            [sortable]="{
+              allowUnsort: allowUnsort,
+              mode: multiple ? 'multiple' : 'single'
+                }"
+            [sort]="sort"
+            (sortChange)="sortChange($event)"
+          >
             <kendo-grid-column field="Name" title="Name">
             </kendo-grid-column>
+
             <kendo-grid-column field="Price" title="Price">
             </kendo-grid-column>
+
             <kendo-grid-column field="Quantity" title="Quantity">
             </kendo-grid-column>
+
+            <kendo-grid-column title="Actions">
+
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <button
+                  (click)="editProduct(dataItem)"
+                  class="btn btn-warning btn-sm">Edit</button> &nbsp;
+                <button
+                  (click)="deleteProduct(dataItem.Id)"
+                  class="btn btn-danger btn-sm">Delete</button>
+              </ng-template>
+
+
+            </kendo-grid-column>
           </kendo-grid>
+
 
         </div>
       </div>

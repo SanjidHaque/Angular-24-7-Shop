@@ -5,6 +5,8 @@ import {Product} from '../../models/product.model';
 import {MatDialog} from '@angular/material/dialog';
 import {ProductDataStorageService} from '../../services/product-data-storage.service';
 import {AddUpdateDialogComponent} from '../../dialogs/add-update-dialog/add-update-dialog.component';
+import {orderBy, SortDescriptor} from '@progress/kendo-data-query';
+import {GridDataResult} from '@progress/kendo-angular-grid';
 
 @Component({
   selector: 'app-product-list',
@@ -12,7 +14,15 @@ import {AddUpdateDialogComponent} from '../../dialogs/add-update-dialog/add-upda
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
-  gridData: any[] = [];
+  gridView: GridDataResult;
+  multiple = false;
+  allowUnsort = true;
+  sort: SortDescriptor[] = [{
+    field: 'Name',
+    dir: 'asc'
+    }];
+
+
   products: Product[] = [];
 
   constructor(private snackBar: MatSnackBar,
@@ -23,8 +33,20 @@ export class ProductListComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe((data: Data) => {
       this.products = data['products'].products;
-      this.gridData = this.products;
+      this.loadProducts();
     });
+  }
+
+  private loadProducts() {
+    this.gridView = {
+      data: orderBy(this.products, this.sort),
+      total: this.products.length
+    };
+  }
+
+  public sortChange(sort: SortDescriptor[]) {
+    this.sort = sort;
+    this.loadProducts();
   }
 
   addProduct() {
@@ -46,7 +68,8 @@ export class ProductListComponent implements OnInit {
           .subscribe((data: any) => {
 
             result.product.Id = data.id;
-            this.products.push( result.product);
+            this.products.push(result.product);
+            this.gridView.data.push(result.product);
 
             this.snackBar.open('New Product Added!', '', {
               duration: 3000,
@@ -93,11 +116,14 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  deleteProduct(productId: number, index: number) {
+  deleteProduct(productId: number) {
+    const index = this.products.findIndex(x => x.Id === productId);
+
     this.productDataStorageService.deleteProduct(productId)
       .subscribe((response: any) => {
 
         this.products.splice(index, 1);
+        this.gridView.data.splice(index, 1);
         this.snackBar.open('Product deleted!', '', {
           duration: 3000,
           horizontalPosition: 'center'
