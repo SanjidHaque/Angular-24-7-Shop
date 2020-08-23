@@ -61,16 +61,14 @@
     <mat-dialog-actions align="end">
       <button
         type="submit"
-        mat-flat-button
+        class="btn btn-success btn-sm"
         [disabled]="!form.valid"
-        color="primary"
         (click)="confirmClick()"
         style="outline: 0;"
       >Save</button>
       <button
         type="button"
-        color="warn"
-        mat-flat-button
+        class="btn btn-danger btn-sm"
         (click)="cancelClick()"
         style="outline: 0;"
       >Cancel</button>

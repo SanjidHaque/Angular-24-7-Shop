@@ -39,11 +39,17 @@
         <div class="offset-xl-1 col-xl-10" style="padding: 10px;">
 
           <kendo-grid
-            [data]="gridView"
+            [data]="gridData"
             [sortable]="{
               allowUnsort: allowUnsort,
               mode: multiple ? 'multiple' : 'single'
                 }"
+            [pageSize]="state.take"
+            [skip]="state.skip"
+            [filter]="state.filter"
+            [pageable]="true"
+            [filterable]="true"
+            (dataStateChange)="dataStateChange($event)"
             [sort]="sort"
             (sortChange)="sortChange($event)"
           >

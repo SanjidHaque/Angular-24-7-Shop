@@ -5,8 +5,8 @@ import {Product} from '../../models/product.model';
 import {MatDialog} from '@angular/material/dialog';
 import {ProductDataStorageService} from '../../services/product-data-storage.service';
 import {AddUpdateDialogComponent} from '../../dialogs/add-update-dialog/add-update-dialog.component';
-import {orderBy, SortDescriptor} from '@progress/kendo-data-query';
-import {GridDataResult} from '@progress/kendo-angular-grid';
+import {orderBy, process, SortDescriptor, State} from '@progress/kendo-data-query';
+import {DataStateChangeEvent, GridDataResult} from '@progress/kendo-angular-grid';
 
 @Component({
   selector: 'app-product-list',
@@ -14,14 +14,16 @@ import {GridDataResult} from '@progress/kendo-angular-grid';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
-  gridView: GridDataResult;
   multiple = false;
   allowUnsort = true;
-  sort: SortDescriptor[] = [{
-    field: 'Name',
-    dir: 'asc'
-    }];
 
+  gridData: GridDataResult;
+  sort: SortDescriptor[] = [];
+
+  public state: State = {
+    skip: 0,
+    take: 5
+  };
 
   products: Product[] = [];
 
@@ -37,16 +39,22 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  private loadProducts() {
-    this.gridView = {
+  loadProducts() {
+    this.gridData = {
       data: orderBy(this.products, this.sort),
       total: this.products.length
     };
+    this.gridData = process(this.products, this.state);
   }
 
-  public sortChange(sort: SortDescriptor[]) {
+  sortChange(sort: SortDescriptor[]) {
     this.sort = sort;
     this.loadProducts();
+  }
+
+  dataStateChange(state: DataStateChangeEvent) {
+    this.state = state;
+    this.gridData = process(this.products, this.state);
   }
 
   addProduct() {
@@ -69,7 +77,8 @@ export class ProductListComponent implements OnInit {
 
             result.product.Id = data.id;
             this.products.push(result.product);
-            this.gridView.data.push(result.product);
+            this.gridData.data.push(result.product);
+            this.loadProducts();
 
             this.snackBar.open('New Product Added!', '', {
               duration: 3000,
@@ -123,7 +132,7 @@ export class ProductListComponent implements OnInit {
       .subscribe((response: any) => {
 
         this.products.splice(index, 1);
-        this.gridView.data.splice(index, 1);
+        this.gridData.data.splice(index, 1);
         this.snackBar.open('Product deleted!', '', {
           duration: 3000,
           horizontalPosition: 'center'
