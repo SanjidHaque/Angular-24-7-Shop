@@ -11,5 +11,9 @@ namespace GSAInitialBE.Models
         public string Name { get; set; }
         public int Price { get; set; }
         public int Quantity { get; set; }
+        public int Purchased { get; set; }
+        public int InStock { get; set; }
+        public int Sold { get; set; }
+        public int Damaged { get; set; }    
     }
 }

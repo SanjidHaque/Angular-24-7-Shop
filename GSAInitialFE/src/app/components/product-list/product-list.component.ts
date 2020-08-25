@@ -20,7 +20,7 @@ export class ProductListComponent implements OnInit {
   gridData: GridDataResult;
   sort: SortDescriptor[] = [];
 
-  public state: State = {
+  state: State = {
     skip: 0,
     take: 5
   };

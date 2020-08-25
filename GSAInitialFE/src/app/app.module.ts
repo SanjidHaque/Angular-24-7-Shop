@@ -12,13 +12,16 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ProductsResolverService} from './route-resolvers/products-resolver.service';
 import {ProductDataStorageService} from './services/product-data-storage.service';
 import {KendoUiModule} from './modules/kendo-ui.module';
+import {ProductInventoryComponent} from './components/product-list/product-inventory/product-inventory.component';
+import {ProductService} from './services/product.service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductListComponent,
-    AddUpdateDialogComponent
+    AddUpdateDialogComponent,
+    ProductInventoryComponent
   ],
   imports: [
     BrowserModule,
@@ -28,10 +31,9 @@ import {KendoUiModule} from './modules/kendo-ui.module';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-
     KendoUiModule
   ],
-  providers: [ProductDataStorageService, ProductsResolverService],
+  providers: [ProductDataStorageService, ProductsResolverService, ProductService],
   entryComponents: [AddUpdateDialogComponent],
   bootstrap: [AppComponent]
 })

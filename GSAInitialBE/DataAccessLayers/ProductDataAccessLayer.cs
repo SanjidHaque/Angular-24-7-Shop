@@ -38,7 +38,11 @@ namespace GSAInitialBE.DataLayers
                                 Id = (int)row.ItemArray[0], 
                                 Name = (string)row.ItemArray[1],
                                 Price = (int)row.ItemArray[2],
-                                Quantity = (int)row.ItemArray[3]
+                                Quantity = (int)row.ItemArray[3],
+                                Purchased = (int)row.ItemArray[4],
+                                InStock = (int)row.ItemArray[5],
+                                Sold = (int)row.ItemArray[6],
+                                Damaged = (int)row.ItemArray[7]
                             };
                             products.Add(product);
                         }
@@ -69,13 +73,10 @@ namespace GSAInitialBE.DataLayers
                     {
                         sqlDataAdapter.SelectCommand = new SqlCommand(storedProcedureName, sqlConnection);
                         sqlDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure;
-
                         sqlDataAdapter.SelectCommand.Parameters.Add("@Id", SqlDbType.Int).Value = id;
-
 
                         DataSet dataset = new DataSet();
                         sqlDataAdapter.Fill(dataset, "products");
-
                         DataTable dataTable = dataset.Tables["products"];
 
                         foreach (DataRow row in dataTable.Rows)
@@ -85,7 +86,11 @@ namespace GSAInitialBE.DataLayers
                                 Id = (int)row.ItemArray[0],
                                 Name = (string)row.ItemArray[1],
                                 Price = (int)row.ItemArray[2],
-                                Quantity = (int)row.ItemArray[3]
+                                Quantity = (int)row.ItemArray[3],
+                                Purchased = (int)row.ItemArray[4],
+                                InStock = (int)row.ItemArray[5],
+                                Sold = (int)row.ItemArray[6],
+                                Damaged = (int)row.ItemArray[7]
                             };
                         }
                     }
@@ -170,8 +175,9 @@ namespace GSAInitialBE.DataLayers
                         sqlCommand.Parameters.AddWithValue("@Name", SqlDbType.VarChar).Value = product.Name;
                         sqlCommand.Parameters.AddWithValue("@Price", SqlDbType.Int).Value = product.Price;
                         sqlCommand.Parameters.AddWithValue("@Quantity", SqlDbType.Int).Value = product.Quantity;
+                        
+                        
                         sqlCommand.ExecuteNonQuery();
-
                         sqlConnection.Close();
 
                     }

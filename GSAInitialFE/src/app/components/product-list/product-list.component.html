@@ -51,6 +51,7 @@
             [filterable]="true"
             (dataStateChange)="dataStateChange($event)"
             [sort]="sort"
+            scrollable="none"
             (sortChange)="sortChange($event)"
           >
             <kendo-grid-column field="Name" title="Name">
@@ -73,8 +74,12 @@
                   class="btn btn-danger btn-sm">Delete</button>
               </ng-template>
 
-
             </kendo-grid-column>
+
+            <div *kendoGridDetailTemplate="let dataItem">
+              <app-product-inventory [product]="dataItem"></app-product-inventory>
+            </div>
+
           </kendo-grid>
 
 
